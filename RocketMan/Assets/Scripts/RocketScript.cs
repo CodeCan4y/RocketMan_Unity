@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class RocketScript : MonoBehaviour
 {   
-    Rigidbody rb;
+    
     [SerializeField] float MainThrust = 100f;
     [SerializeField] float RotationThrust = 1f;
-    AudioSource ThrustAudio;
+    [SerializeField] AudioClip Thurst;
+    AudioSource SourceAudio;
+    Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        ThrustAudio = GetComponent<AudioSource>();
+        SourceAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -28,14 +30,14 @@ public class RocketScript : MonoBehaviour
        {
         rb.AddRelativeForce(Vector3.up*MainThrust*Time.deltaTime);
         Debug.Log("Thrust");
-            if(!ThrustAudio.isPlaying)
+            if(!SourceAudio.isPlaying)
             {
-                ThrustAudio.Play();
+                SourceAudio.PlayOneShot(Thurst);
             }
        } 
        else
             {
-                ThrustAudio.Stop();
+                SourceAudio.Stop();
             }
 
     }

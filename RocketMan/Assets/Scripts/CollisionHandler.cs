@@ -3,8 +3,23 @@ using UnityEngine.SceneManagement;
 public class CollisionHandler : MonoBehaviour
 {
    [SerializeField] float LoadSceneDelay = 1f;
+   [SerializeField] AudioClip deathAudio;
+   [SerializeField] AudioClip SuccessAudio;
+   AudioSource SourceAudio;
+
+   bool IsTransitioning = false;
+
+   void Start()
+   {
+    SourceAudio = GetComponent<AudioSource>();
+   }
+
    void OnCollisionEnter(Collision other)
    {
+        if(IsTransitioning)
+        {
+            return;
+        }
         switch(other.gameObject.tag)
         {
             case "Fuel":
@@ -15,7 +30,7 @@ public class CollisionHandler : MonoBehaviour
                 break;
             case "Finish":
                 Debug.Log("Game Khatam brooo");
-                NextLevel();
+                SuccessSquence();
                 break; 
             case "Respawn":
                 break;  
@@ -26,11 +41,23 @@ public class CollisionHandler : MonoBehaviour
         }
         
    }
+
+   void SuccessSquence()
+   {
+    IsTransitioning = true;
+    SourceAudio.Stop();
+    SourceAudio.PlayOneShot(SuccessAudio);
+    GetComponent<RocketScript>().enabled = false;
+    Invoke("NextLevel", LoadSceneDelay);
+   }
    void CrashSquence()
    {
+    IsTransitioning = true; 
+    SourceAudio.Stop();
+    SourceAudio.PlayOneShot(deathAudio);
     GetComponent<RocketScript>().enabled = false;
     Invoke("ReloadScene", LoadSceneDelay);
-   }
+   } 
    void ReloadScene()
    {
     int CurrentScene = SceneManager.GetActiveScene().buildIndex;
