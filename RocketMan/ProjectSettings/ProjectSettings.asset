@@ -719,11 +719,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 9dd45300-e4e7-416b-9459-9b4b81b4887f
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: RocketMan
+  organizationId: shinethomson
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 

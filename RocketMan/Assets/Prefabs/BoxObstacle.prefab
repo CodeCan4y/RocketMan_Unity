@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5885851109598897479}
   - component: {fileID: 5885851109598897472}
   m_Layer: 0
-  m_Name: TempObstacle
+  m_Name: BoxObstacle
   m_TagString: Friendly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -5,18 +5,27 @@ public class CollisionHandler : MonoBehaviour
    [SerializeField] float LoadSceneDelay = 1f;
    [SerializeField] AudioClip deathAudio;
    [SerializeField] AudioClip SuccessAudio;
+
+   [SerializeField] ParticleSystem successParticles;
+   [SerializeField] ParticleSystem explosionParticles;
    AudioSource SourceAudio;
 
    bool IsTransitioning = false;
+   bool CollisionDisable = false;
 
    void Start()
    {
     SourceAudio = GetComponent<AudioSource>();
    }
 
-   void OnCollisionEnter(Collision other)
+   void Update()
    {
-        if(IsTransitioning)
+        DebugKeys();
+   }
+
+    void OnCollisionEnter(Collision other)
+   {
+        if(IsTransitioning || CollisionDisable)
         {
             return;
         }
@@ -47,6 +56,7 @@ public class CollisionHandler : MonoBehaviour
     IsTransitioning = true;
     SourceAudio.Stop();
     SourceAudio.PlayOneShot(SuccessAudio);
+    successParticles.Play();
     GetComponent<RocketScript>().enabled = false;
     Invoke("NextLevel", LoadSceneDelay);
    }
@@ -55,6 +65,7 @@ public class CollisionHandler : MonoBehaviour
     IsTransitioning = true; 
     SourceAudio.Stop();
     SourceAudio.PlayOneShot(deathAudio);
+    explosionParticles.Play();
     GetComponent<RocketScript>().enabled = false;
     Invoke("ReloadScene", LoadSceneDelay);
    } 
@@ -73,6 +84,24 @@ public class CollisionHandler : MonoBehaviour
         NextScene = 0;
     }
     SceneManager.LoadScene(NextScene);  
+   }
+
+   void DebugKeys()
+   {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            ReloadScene();
+        }
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            NextLevel();
+        }
+
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            CollisionDisable = !CollisionDisable;
+        }
    }
            
 }
